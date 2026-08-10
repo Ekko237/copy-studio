@@ -40,18 +40,20 @@ For the `/copy-studio` slash command, also copy `commands/copy-studio.md` into `
 Copy Studio is an **orchestrator**. It does not contain the five skills it drives, and it does not
 redistribute them — they are separate projects by other authors, each under its own license:
 
-| Stage | Skill it calls |
-|---|---|
-| 1. Strategy | `brainstorming` |
-| 2. Framework | `writing-plans` |
-| 3. Draft | `copywriting` |
-| 4. Polish | `copy-editing` |
-| 5. De-AI | `humanizer` — https://github.com/blader/humanizer |
+| Stage | Skill it calls | Where to get it |
+|---|---|---|
+| 1. Strategy | `brainstorming` | [obra/superpowers](https://github.com/obra/superpowers) → `skills/brainstorming/` |
+| 2. Framework | `writing-plans` | [obra/superpowers](https://github.com/obra/superpowers) → `skills/writing-plans/` |
+| 3. Draft | `copywriting` | [coreyhaines31/marketingskills](https://github.com/coreyhaines31/marketingskills) → `skills/copywriting/` |
+| 4. Polish | `copy-editing` | [coreyhaines31/marketingskills](https://github.com/coreyhaines31/marketingskills) → `skills/copy-editing/` |
+| 5. De-AI | `humanizer` | [blader/humanizer](https://github.com/blader/humanizer) |
 
-**Install them separately**, from wherever each one is distributed, into the same skills directory
-(`~/.claude/skills/` or `~/.codex/skills/`). Copy Studio invokes them by name, so it works with
-whatever version of each skill you have. Missing one? Then the stage that calls it can't run —
-Copy Studio won't substitute its own.
+All three upstream projects are MIT-licensed; go to each for its current terms and install
+instructions. **Install them separately** into the same skills directory as Copy Studio
+(`~/.claude/skills/` or `~/.codex/skills/`), each in a folder matching the skill name above.
+
+Copy Studio invokes them by name, so it works with whatever version of each skill you have.
+Missing one? Then the stage that calls it can't run — Copy Studio won't substitute its own.
 
 Stage 6 (localization) is optional and needs a localization skill of your own.
 
