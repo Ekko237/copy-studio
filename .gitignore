@@ -1,0 +1,14 @@
+# Your filled-in brand material is usually internal — keep it out of the repo.
+# Copy the template, fill it in under a name matching this pattern, and it stays local.
+references/*-private.md
+references/fact-base*.md
+references/*-samples.md
+!references/channel-calibration-template.md
+
+# Drafts and working files
+drafts/
+*.docx
+*.pdf
+
+.DS_Store
+Thumbs.db
