@@ -13,6 +13,8 @@ It orchestrates five existing skills instead of replacing them:
 | 5. De-AI | `humanizer` | AI tells removed, voice matched → final deliverable |
 | 6. Localize *(optional)* | your localization skill | the approved master localized into the channel's language |
 
+None of those five skills ship with this repo — see [Dependencies](#dependencies--five-skills-you-install-yourself).
+
 The point is not speed. It's one entry point, one strategy carried all the way through, and a guaranteed review gate between stages.
 
 ## Why the gates matter
@@ -33,7 +35,25 @@ git clone https://github.com/Ekko237/copy-studio.git ~/.claude/skills/copy-studi
 
 For the `/copy-studio` slash command, also copy `commands/copy-studio.md` into `~/.claude/commands/`.
 
-**Requires** these skills installed alongside it: `brainstorming`, `writing-plans`, `copywriting`, `copy-editing`, `humanizer`. Stage 6 is optional and needs a localization skill of your own.
+## Dependencies — five skills you install yourself
+
+Copy Studio is an **orchestrator**. It does not contain the five skills it drives, and it does not
+redistribute them — they are separate projects by other authors, each under its own license:
+
+| Stage | Skill it calls |
+|---|---|
+| 1. Strategy | `brainstorming` |
+| 2. Framework | `writing-plans` |
+| 3. Draft | `copywriting` |
+| 4. Polish | `copy-editing` |
+| 5. De-AI | `humanizer` — https://github.com/blader/humanizer |
+
+**Install them separately**, from wherever each one is distributed, into the same skills directory
+(`~/.claude/skills/` or `~/.codex/skills/`). Copy Studio invokes them by name, so it works with
+whatever version of each skill you have. Missing one? Then the stage that calls it can't run —
+Copy Studio won't substitute its own.
+
+Stage 6 (localization) is optional and needs a localization skill of your own.
 
 ## Before your first real run: bring your own brand reference
 
