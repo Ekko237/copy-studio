@@ -75,7 +75,9 @@ This repo ships with **no brand facts, no product stats, no prize figures, and n
 Or just describe the job and let the skill trigger. It starts at **Stage 0 (intake)**: copy type + channel, the asset and goal in one line, scope, output language, and what source material exists. Then one stage per turn, stopping at each gate:
 
 > **Stage N complete.** […output…]
-> ✅ Approved, continue · ✏️ Change something · ⏪ Redo this stage · ⛔ Stop here
+> ✅ Approved, continue to Stage N+1 · ✏️ Change something · ⏪ Redo this stage · ⛔ Stop here
+
+A big job (whole page, deck, campaign) gets a gate after every stage. A small job (one comment, post, caption, card) gets two: direction first, then the finished copy with polish and de-AI already applied.
 
 Already have a brief? Start at Stage 2. Have a draft you want finished? Start at Stage 4. Just need the AI smell taken off? Invoke `humanizer` directly.
 
@@ -93,15 +95,12 @@ The skill separates the language you *talk* in from the language the copy *ships
 
 ## Layout
 
-```
-copy-studio/
-├─ README.md                you are here
-├─ SKILL.md                 the skill: stages, gates, recipe library, self-checks
-├─ commands/copy-studio.md  optional /copy-studio slash command
-├─ agents/openai.yaml       Codex agent interface metadata
-└─ references/
-   └─ channel-calibration-template.md   scaffold for your fact base + samples
-```
+- `README.md` — you are here
+- `SKILL.md` — the skill: stages, gates, recipe library, self-checks
+- `commands/copy-studio.md` — optional `/copy-studio` slash command
+- `agents/openai.yaml` — Codex agent interface metadata
+- `references/channel-calibration-template.md` — scaffold for your fact base and samples
+- `scripts/check_skill.py` — structural check for `SKILL.md` (section references, table integrity, self-check count); run it after editing the skill
 
 ## License
 

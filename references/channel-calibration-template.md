@@ -55,8 +55,8 @@ For each channel you actually ship to, keep **2–3 approved, real samples** plu
 | G | Comment reply — community invite | 2–3 approved replies showing the "one concrete detail" opener |
 | H | Reddit playbook (evidence) | Your own removal/ban log: what was removed, what it carried, what you concluded. Operative rules stay in SKILL.md; this file holds the evidence |
 | I | Video cover / thumbnail overlay | Winning overlays + the audience each was tested on |
-| L | Social captions per platform | One sample per platform for the same campaign, showing the link handling differences |
 | K | Template email | The block template + one worked example per variant, plus your image/handoff specs |
+| L | Social captions per platform | One sample per platform for the same campaign, showing the link handling differences |
 
 ### Per-section skeleton
 
