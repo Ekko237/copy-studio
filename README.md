@@ -8,7 +8,25 @@ A Claude Code and Codex skill. It runs one marketing-copy job through five stage
 
 [中文说明](README.zh-CN.md)
 
-<!-- screenshots: docs/screenshots/ -->
+<p>
+  <img src="docs/screenshots/01-brief.png" width="800" alt="You give it a job (here, the hero copy for mealow.app) and it asks you to pick a direction before writing anything.">
+  <br>
+  You give it a job (here, the hero copy for mealow.app) and it asks you to pick a direction before writing anything.
+</p>
+
+<p>
+  <img src="docs/screenshots/02-gate.png" width="800" alt="After each stage it stops and waits for your OK.">
+  <br>
+  After each stage it stops and waits for your OK.
+</p>
+
+<p>
+  <img src="docs/screenshots/03-final.png" width="800" alt="The finished copy, polished and de-AI'd.">
+  <br>
+  The finished copy, polished and de-AI'd.
+</p>
+
+<p><em>From a real run on mealow.app hero copy. Replies at each stop were typed by hand; some lines trimmed.</em></p>
 
 It runs five existing skills. It does not replace them.
 
