@@ -1,8 +1,9 @@
 ---
 name: copy-studio
-description: "Run a marketing-copy job as one staged pipeline — strategy → framework → draft → polish → de-AI — with an approval gate between stages, plus an optional final localization step when the copy ships in a third language. Use when a piece of copy (community post, comment reply, social caption, landing-page module, deck slide, ad, email) needs to go from scratch to a finished, human-sounding version, or on requests like 'run my copy workflow', 'full copy pipeline', 'take this from brief to final', 'brainstorm then write then polish'. Orchestrates the brainstorming, writing-plans, copywriting, copy-editing and humanizer skills. For a single stage only (just write, just polish, just de-AI, just translate), use that skill directly."
+description: 'Use when a community post, comment reply, social caption, landing-page module, deck slide, ad, or email needs to go from a brief to finished, human-sounding copy. Also use when the request is "run my copy workflow", "full copy pipeline", "take this from brief to final", or "brainstorm then write then polish". For a single stage only (just write, just polish, just de-AI, just translate), use that skill directly.'
 compatibility: "Orchestrator only — it bundles none of the skills it calls. Install separately: brainstorming, writing-plans, copywriting, copy-editing, humanizer. Optional: a localization skill for Stage 6."
-version: "3.0.0"
+metadata:
+  version: "3.0.0"
 ---
 
 # Copy Studio
