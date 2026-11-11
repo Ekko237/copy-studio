@@ -8,7 +8,25 @@
 
 [English](README.md)
 
-<!-- screenshots: docs/screenshots/ -->
+<p>
+  <img src="docs/screenshots/01-brief.png" width="800" alt="你给它一个任务（这里是 mealow.app 的首屏文案），它先让你选一个方向，再开始写。">
+  <br>
+  你给它一个任务（这里是 mealow.app 的首屏文案），它先让你选一个方向，再开始写。
+</p>
+
+<p>
+  <img src="docs/screenshots/02-gate.png" width="800" alt="每一步结束后，它都会停下来等你确认。">
+  <br>
+  每一步结束后，它都会停下来等你确认。
+</p>
+
+<p>
+  <img src="docs/screenshots/03-final.png" width="800" alt="成稿已经润色，并去掉了 AI 味。">
+  <br>
+  成稿已经润色，并去掉了 AI 味。
+</p>
+
+<p><em>来自 mealow.app 首屏文案的一次真实运行。每一处停下来的回复都是手打的；有些行做了删节。</em></p>
 
 它调度五个已经存在的技能，不替换它们。
 
