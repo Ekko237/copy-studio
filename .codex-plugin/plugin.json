@@ -10,7 +10,7 @@
   "repository": "https://github.com/Ekko237/copy-studio",
   "license": "MIT",
   "keywords": ["skills", "copywriting", "marketing"],
-  "skills": "./",
+  "skills": "./skills/",
   "interface": {
     "displayName": "Copy Studio",
     "shortDescription": "Staged marketing copy that stops after every stage.",

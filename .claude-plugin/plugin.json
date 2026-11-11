@@ -11,7 +11,7 @@
   "repository": "https://github.com/Ekko237/copy-studio",
   "license": "MIT",
   "keywords": ["skills", "copywriting", "marketing"],
-  "skills": ".",
+  "commands": [],
   "metadata": {
     "defaultPrompts": [
       "Take this copy job from strategy to finished copy, and stop for my approval after each stage.",

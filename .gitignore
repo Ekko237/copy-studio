@@ -3,7 +3,10 @@
 references/*-private.md
 references/fact-base*.md
 references/*-samples.md
-!references/channel-calibration-template.md
+skills/copy-studio/references/*-private.md
+skills/copy-studio/references/fact-base*.md
+skills/copy-studio/references/*-samples.md
+!skills/copy-studio/references/channel-calibration-template.md
 
 # Drafts and working files
 drafts/
