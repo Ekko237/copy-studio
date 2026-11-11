@@ -8,23 +8,18 @@
 
 [English](README.md)
 
-<p>
-  <img src="docs/screenshots/01-brief.png" width="800" alt="你给它一个任务（这里是 mealow.app 的首屏文案），它先让你选一个方向，再开始写。">
-  <br>
-  你给它一个任务（这里是 mealow.app 的首屏文案），它先让你选一个方向，再开始写。
-</p>
-
-<p>
-  <img src="docs/screenshots/02-gate.png" width="800" alt="每一步结束后，它都会停下来等你确认。">
-  <br>
-  每一步结束后，它都会停下来等你确认。
-</p>
-
-<p>
-  <img src="docs/screenshots/03-final.png" width="800" alt="成稿已经润色，并去掉了 AI 味。">
-  <br>
-  成稿已经润色，并去掉了 AI 味。
-</p>
+<table>
+  <tr>
+    <td width="33%"><img src="docs/screenshots/01-brief.png" alt="你给它一个任务（这里是 mealow.app 的首屏文案），它先让你选一个方向，再开始写。"></td>
+    <td width="33%"><img src="docs/screenshots/02-gate.png" alt="每一步结束后，它都会停下来等你确认。"></td>
+    <td width="33%"><img src="docs/screenshots/03-final.png" alt="成稿已经润色，并去掉了 AI 味。"></td>
+  </tr>
+  <tr>
+    <td>你给它一个任务（这里是 mealow.app 的首屏文案），它先让你选一个方向，再开始写。</td>
+    <td>每一步结束后，它都会停下来等你确认。</td>
+    <td>成稿已经润色，并去掉了 AI 味。</td>
+  </tr>
+</table>
 
 <p><em>来自 mealow.app 首屏文案的一次真实运行。每一处停下来的回复都是手打的；有些行做了删节。</em></p>
 
@@ -52,6 +47,9 @@
 ## 一次运行长什么样
 
 小任务会在任何成稿出现之前停一次，成稿出来再停一次。下面就是这个形状。**Northwind Kettle 是占位品牌，不是真实产品。** 事实库里没有价格、没有用户数、没有奖项，所以成稿里也没有。
+
+<details>
+<summary>运行记录</summary>
 
 ```text
 You
@@ -108,11 +106,24 @@ Copy Studio
   ✅ Approved · ✏️ Change something (say what) · ⏪ Redo this stage · ⛔ Stop here
 ```
 
+</details>
+
 大任务会在每一步之后印出同一份菜单，第一项是 `✅ Approved, continue to Stage N+1`。提出方向的那一轮里，仍然没有候选成稿。
 
 ## 安装
 
+```bash
+npx skills add https://github.com/Ekko237/copy-studio --skill copy-studio
+```
+
+这条命令不安装五个依赖技能；`install.sh` 会把它们和 Copy Studio 一起装上，检出后运行 `bash scripts/install-deps.sh` 只装这五个。
+
+这条命令通过 [`npx skills`](https://github.com/vercel-labs/skills) CLI 安装本技能（Claude Code、Codex 和其他代理都能用）。
+
 你需要 git、bash、tar，以及网络。
+
+<details>
+<summary>install.sh</summary>
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Ekko237/copy-studio/main/install.sh | bash
@@ -120,13 +131,12 @@ curl -fsSL https://raw.githubusercontent.com/Ekko237/copy-studio/main/install.sh
 
 这条命令会把 Copy Studio、五个依赖技能，以及 `/copy-studio` 命令装进 `~/.claude` 和 `~/.codex`。
 
-确认它能用。新开一个 Claude Code 或 Codex 会话，输入 `/copy-studio an Instagram post for the new template library`。你应该先看到第 0 步，然后是一轮没有候选成稿的策略，以及一份停下来等你的菜单。
+</details>
 
-更新。再跑一次上面的命令。它会刷新这个安装器自己放进去的副本。
+<details>
+<summary>Claude Code 插件</summary>
 
-### Claude Code 和 Codex 插件
-
-下面的命令只安装调度器，不安装五个依赖技能。在检出的仓库里运行 `bash scripts/install-deps.sh` 可以装上这五个。上面的安装命令会把调度器和这五个技能一起装上。
+下面的命令只安装调度器，不安装五个依赖技能。在检出的仓库里运行 `bash scripts/install-deps.sh` 可以装上这五个。`install.sh` 会把调度器和这五个技能一起装上。
 
 Claude Code：
 
@@ -135,6 +145,13 @@ claude plugin marketplace add Ekko237/copy-studio
 claude plugin install copy-studio@copy-studio
 ```
 
+Claude Code 只列出一个技能，名字是 `copy-studio`。安装脚本还会加上 `/copy-studio`。
+
+</details>
+
+<details>
+<summary>Codex 插件</summary>
+
 Codex：
 
 ```bash
@@ -142,14 +159,16 @@ codex plugin marketplace add Ekko237/copy-studio
 codex plugin add copy-studio@copy-studio
 ```
 
-Claude Code 只列出一个技能，名字是 `copy-studio`。Codex 列出的是 `copy-studio:copy-studio`。安装脚本还会加上 `/copy-studio`。
+Codex 列出的是 `copy-studio:copy-studio`。
+
+</details>
 
 <details>
 <summary>其他安装方式</summary>
 
 ### 从本仓库的检出运行
 
-`bash install.sh` 和上面的命令做的是同一件事。`bash scripts/install-deps.sh` 只安装那五个依赖。
+`bash install.sh` 和上面的 `curl` 命令做的是同一件事。`bash scripts/install-deps.sh` 只安装那五个依赖。
 
 脚本会写入：
 
@@ -178,6 +197,10 @@ cp copy-studio/commands/copy-studio.md ~/.claude/commands/copy-studio.md
 在 Git Bash 或 WSL 里运行安装命令。`~` 就是 `C:\Users\<你>`。
 
 </details>
+
+确认它能用。新开一个 Claude Code 或 Codex 会话，输入 `/copy-studio an Instagram post for the new template library`。你应该先看到第 0 步，然后是一轮没有候选成稿的策略，以及一份停下来等你的菜单。
+
+更新。再跑一次安装命令。它会刷新这个安装器自己放进去的副本。
 
 ## 依赖技能
 
@@ -223,23 +246,23 @@ Copy Studio 是调度器。它不包含自己所调用的那五个技能。`inst
 
 ## 常见问题
 
-### 为什么经常停下来？
+**为什么经常停下来？**
 
 提出方向的那一轮里没有任何候选成稿。一条评论也是两轮：先方向，后成稿。大任务每一步都停。小任务轮次更少，步骤不减少。第 3 步的草稿不是交付物。
 
-### 可以跳过某些步骤吗？
+**可以跳过某些步骤吗？**
 
 更早的工作已经有了，就可以从后面开始。简报清楚，从第 2 步开始。有一篇要收尾的草稿，从第 4 步开始。只去掉 AI 味，直接用 `humanizer`。成稿只需要另一种语言，从第 6 步开始。你已经有的材料，就代替更早的步骤。从你进入的那一步起，关口照常停。小任务在你确认方向之后，会把第 3、4、5 步一次跑完，并写明已经润色、已经去掉 AI 味。
 
-### 缺了一个依赖会怎样？
+**缺了一个依赖会怎样？**
 
 调用它的那一步不跑。Copy Studio 不会自己写一版顶上。`install.sh` 会克隆那五个技能。第 6 步要你自己的本地化技能。安装器不会加一个。
 
-### 它支持哪些工具？
+**它支持哪些工具？**
 
 Claude Code 和 Codex。安装会写到 `~/.claude` 和 `~/.codex`。
 
-### 文案里的数字从哪来？
+**文案里的数字从哪来？**
 
 从你自己的事实库来。这个仓库不带产品数据、奖金数字和示例文案。事实库里没有的，保持为 `TBD`。
 

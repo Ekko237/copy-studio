@@ -8,23 +8,18 @@ A Claude Code and Codex skill. It runs one marketing-copy job through five stage
 
 [中文说明](README.zh-CN.md)
 
-<p>
-  <img src="docs/screenshots/01-brief.png" width="800" alt="You give it a job (here, the hero copy for mealow.app) and it asks you to pick a direction before writing anything.">
-  <br>
-  You give it a job (here, the hero copy for mealow.app) and it asks you to pick a direction before writing anything.
-</p>
-
-<p>
-  <img src="docs/screenshots/02-gate.png" width="800" alt="After each stage it stops and waits for your OK.">
-  <br>
-  After each stage it stops and waits for your OK.
-</p>
-
-<p>
-  <img src="docs/screenshots/03-final.png" width="800" alt="The finished copy, polished and de-AI'd.">
-  <br>
-  The finished copy, polished and de-AI'd.
-</p>
+<table>
+  <tr>
+    <td width="33%"><img src="docs/screenshots/01-brief.png" alt="You give it a job (here, the hero copy for mealow.app) and it asks you to pick a direction before writing anything."></td>
+    <td width="33%"><img src="docs/screenshots/02-gate.png" alt="After each stage it stops and waits for your OK."></td>
+    <td width="33%"><img src="docs/screenshots/03-final.png" alt="The finished copy, polished and de-AI'd."></td>
+  </tr>
+  <tr>
+    <td>You give it a job (here, the hero copy for mealow.app) and it asks you to pick a direction before writing anything.</td>
+    <td>After each stage it stops and waits for your OK.</td>
+    <td>The finished copy, polished and de-AI'd.</td>
+  </tr>
+</table>
 
 <p><em>From a real run on mealow.app hero copy. Replies at each stop were typed by hand; some lines trimmed.</em></p>
 
@@ -52,6 +47,9 @@ A small job uses fewer turns, but still runs every stage. A raw Stage 3 draft is
 ## What a run looks like
 
 A small job stops once before any copy exists, then once more on the finished piece. The transcript below shows that flow. **Northwind Kettle is a placeholder, not a real brand.** The fact base has no price, no customer count, and no awards, so the draft has none either.
+
+<details>
+<summary>Transcript</summary>
 
 ```text
 You
@@ -108,11 +106,24 @@ Copy Studio
   ✅ Approved · ✏️ Change something (say what) · ⏪ Redo this stage · ⛔ Stop here
 ```
 
+</details>
+
 On a big job, the same menu prints after every stage, and the first option reads `✅ Approved, continue to Stage N+1`. The turn that proposes the direction still contains no candidate copy.
 
 ## Install
 
+```bash
+npx skills add https://github.com/Ekko237/copy-studio --skill copy-studio
+```
+
+This does not install the five dependency skills; `install.sh` installs them with Copy Studio, and `bash scripts/install-deps.sh` installs only those five.
+
+That installs the skill via the [`npx skills`](https://github.com/vercel-labs/skills) CLI (works across Claude Code, Codex and other agents).
+
 Requires git, bash, tar, and a network connection.
+
+<details>
+<summary>install.sh</summary>
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Ekko237/copy-studio/main/install.sh | bash
@@ -120,11 +131,10 @@ curl -fsSL https://raw.githubusercontent.com/Ekko237/copy-studio/main/install.sh
 
 This installs Copy Studio, the five dependency skills, and the `/copy-studio` command into both `~/.claude` and `~/.codex`.
 
-**Verify:** Open a new Claude Code or Codex session and run `/copy-studio an Instagram post for the new template library`. You should see Stage 0, a strategy turn with no candidate copy, and a gate menu waiting for your input.
+</details>
 
-**Update:** Run the same `curl` command again to refresh the copies managed by this installer.
-
-### Claude Code and Codex plugins
+<details>
+<summary>Claude Code plugin</summary>
 
 Plugin commands install only the orchestrator. They do not install the five dependency skills. To get everything in one go, use the `curl` command above, or run `bash scripts/install-deps.sh` from a checkout to install the five dependencies separately.
 
@@ -135,6 +145,13 @@ claude plugin marketplace add Ekko237/copy-studio
 claude plugin install copy-studio@copy-studio
 ```
 
+Claude Code lists one skill, named `copy-studio`. The `install.sh` script also adds the `/copy-studio` slash command.
+
+</details>
+
+<details>
+<summary>Codex plugin</summary>
+
 Codex:
 
 ```bash
@@ -142,7 +159,9 @@ codex plugin marketplace add Ekko237/copy-studio
 codex plugin add copy-studio@copy-studio
 ```
 
-Claude Code lists one skill, named `copy-studio`. Codex lists `copy-studio:copy-studio`. The `install.sh` script also adds the `/copy-studio` slash command.
+Codex lists `copy-studio:copy-studio`.
+
+</details>
 
 <details>
 <summary>Other install paths</summary>
@@ -178,6 +197,10 @@ cp copy-studio/commands/copy-studio.md ~/.claude/commands/copy-studio.md
 Run the install command from Git Bash or WSL. `~` maps to `C:\Users\<you>`.
 
 </details>
+
+**Verify:** Open a new Claude Code or Codex session and run `/copy-studio an Instagram post for the new template library`. You should see Stage 0, a strategy turn with no candidate copy, and a gate menu waiting for your input.
+
+**Update:** Re-run the install command to refresh the copies managed by this installer.
 
 ## Dependencies
 
@@ -223,23 +246,23 @@ Already have a brief? Start at Stage 2. Have a draft that needs finishing? Start
 
 ## Common questions
 
-### Why does it stop so often?
+**Why does it stop so often?**
 
 The turn that proposes the direction contains no candidate copy. Even a one-line comment takes two turns: direction first, finished copy second. Big jobs stop after every stage. Small jobs use fewer turns but still run every stage. A raw Stage 3 draft is not the deliverable.
 
-### Can I skip stages?
+**Can I skip stages?**
 
 Yes, if you already have the earlier work. Start at Stage 2 with an existing brief, Stage 4 with a draft to edit, or Stage 6 when final copy only needs translation. If you just want the AI smell removed, invoke `humanizer` directly. Your input stands in for the skipped stages, and gates still run from your entry point onward. On a small job, stages 3, 4, and 5 run in a single pass after you approve the direction, and the result says it was polished and de-AI'd.
 
-### What if a dependency is missing?
+**What if a dependency is missing?**
 
 The stage that calls it does not run. Copy Studio never writes that stage on its own. `install.sh` clones the five skills. Stage 6 requires your own localization skill, which the installer does not add.
 
-### Which tools does this support?
+**Which tools does this support?**
 
 Claude Code and Codex. The installer writes to `~/.claude` and `~/.codex`.
 
-### Where do the numbers in the copy come from?
+**Where do the numbers in the copy come from?**
 
 From your fact base. This repo ships with no product stats, prize figures, or sample copy. Any claim missing from your fact base stays `TBD`.
 
