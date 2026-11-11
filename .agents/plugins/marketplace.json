@@ -1,0 +1,20 @@
+{
+  "name": "copy-studio",
+  "interface": {
+    "displayName": "Copy Studio"
+  },
+  "plugins": [
+    {
+      "name": "copy-studio",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Creativity"
+    }
+  ]
+}

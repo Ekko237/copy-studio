@@ -1,0 +1,24 @@
+name: check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  skill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check SKILL.md frontmatter
+        run: python3 scripts/check_frontmatter.py
+
+      - name: Check SKILL.md structure
+        run: python3 scripts/check_skill.py
+
+      - name: Syntax-check scripts and manifests
+        run: |
+          bash -n install.sh
+          bash -n scripts/install-deps.sh
+          python3 -m py_compile scripts/check_skill.py scripts/check_frontmatter.py
+          python3 -c "import json, pathlib; files=['.claude-plugin/plugin.json', '.claude-plugin/marketplace.json', '.codex-plugin/plugin.json', '.agents/plugins/marketplace.json']; [json.loads(pathlib.Path(p).read_text(encoding='utf-8')) for p in files]; print('manifests ok')"

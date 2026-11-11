@@ -1,0 +1,19 @@
+{
+  "name": "copy-studio",
+  "description": "Staged marketing copy that stops for approval after every stage.",
+  "owner": {
+    "name": "Ekko237"
+  },
+  "plugins": [
+    {
+      "name": "copy-studio",
+      "description": "Orchestrator for staged marketing copy. It does not include the five dependency skills.",
+      "version": "3.0.0",
+      "source": "./",
+      "author": {
+        "name": "Ekko237"
+      },
+      "license": "MIT"
+    }
+  ]
+}

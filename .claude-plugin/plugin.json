@@ -1,0 +1,22 @@
+{
+  "name": "copy-studio",
+  "displayName": "Copy Studio",
+  "version": "3.0.0",
+  "description": "Staged marketing copy that stops for approval after every stage. This plugin is the orchestrator only.",
+  "author": {
+    "name": "Ekko237",
+    "url": "https://github.com/Ekko237"
+  },
+  "homepage": "https://github.com/Ekko237/copy-studio",
+  "repository": "https://github.com/Ekko237/copy-studio",
+  "license": "MIT",
+  "keywords": ["skills", "copywriting", "marketing"],
+  "skills": ".",
+  "metadata": {
+    "defaultPrompts": [
+      "Take this copy job from strategy to finished copy, and stop for my approval after each stage.",
+      "Write an Instagram caption. Show the direction first, with no candidate copy.",
+      "I already have a draft. Start at polish and finish it."
+    ]
+  }
+}
