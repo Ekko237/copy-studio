@@ -124,6 +124,26 @@ Verify it works. Open a new Claude Code or Codex session and ask `/copy-studio a
 
 Update. Run the same command again. It refreshes the copies this installer manages.
 
+### Claude Code and Codex plugins
+
+These commands install only the orchestrator. They do not install the five dependency skills. From a checkout, `bash scripts/install-deps.sh` installs those five. The command above installs the orchestrator and the five skills together.
+
+Claude Code:
+
+```bash
+claude plugin marketplace add Ekko237/copy-studio
+claude plugin install copy-studio@copy-studio
+```
+
+Codex:
+
+```bash
+codex plugin marketplace add Ekko237/copy-studio
+codex plugin add copy-studio@copy-studio
+```
+
+Claude Code lists one skill, named `copy-studio`. Codex lists `copy-studio:copy-studio`. The install script also adds `/copy-studio`.
+
 <details>
 <summary>Other install paths</summary>
 
@@ -146,22 +166,16 @@ Skill folders elsewhere: set `COPY_STUDIO_CLAUDE_HOME` and `COPY_STUDIO_CODEX_HO
 This copies Copy Studio and skips the five dependencies. A stage whose skill is missing does not run.
 
 ```bash
-git clone https://github.com/Ekko237/copy-studio.git ~/.claude/skills/copy-studio
-git clone https://github.com/Ekko237/copy-studio.git ~/.codex/skills/copy-studio
-cp ~/.claude/skills/copy-studio/commands/copy-studio.md ~/.claude/commands/copy-studio.md
+git clone https://github.com/Ekko237/copy-studio.git
+mkdir -p ~/.claude/skills ~/.codex/skills ~/.claude/commands
+cp -R copy-studio/skills/copy-studio ~/.claude/skills/copy-studio
+cp -R copy-studio/skills/copy-studio ~/.codex/skills/copy-studio
+cp copy-studio/commands/copy-studio.md ~/.claude/commands/copy-studio.md
 ```
 
 ### Windows
 
 Run the install command from Git Bash or WSL. `~` is `C:\Users\<you>`.
-
-### Claude Code plugin
-
-`.claude-plugin/` is a plugin manifest for the orchestrator. The plugin installs only the orchestrator. `install.sh` brings in the five dependencies.
-
-### Codex plugin
-
-`.codex-plugin/plugin.json` and `.agents/plugins/marketplace.json` describe the same orchestrator. They do not install the five dependencies. `install.sh` brings those in.
 
 </details>
 
@@ -190,7 +204,7 @@ This repo ships with no brand facts, no product stats, no prize figures, and no 
 1. **A fact base.** The only citable source for your product's stats, capabilities, URLs, pricing, and program or reward figures. Quote it verbatim. Anything missing is `TBD`.
 2. **A channel calibration file.** Two or three approved real samples per channel you ship to. Samples teach shape and voice better than a description.
 
-[`references/channel-calibration-template.md`](references/channel-calibration-template.md) is the scaffold for both. Once it holds real material it is usually internal. The included `.gitignore` keeps filled-in copies out of git by default.
+[`skills/copy-studio/references/channel-calibration-template.md`](skills/copy-studio/references/channel-calibration-template.md) is the scaffold for both. Once it holds real material it is usually internal. The included `.gitignore` keeps filled-in copies out of git by default.
 
 ## Usage
 
@@ -247,12 +261,12 @@ The skill separates the language you talk in from the language the copy ships in
 - `CHANGELOG.md`: release notes
 - `install.sh`: one-command install of this skill, the five dependencies, and the slash command
 - `scripts/install-deps.sh`: the five dependencies only
-- `SKILL.md`: the skill. Stages, gates, recipe library, self-checks
-- `commands/copy-studio.md`: the `/copy-studio` slash command. `install.sh` copies it into `~/.claude/commands/`
-- `agents/openai.yaml`: Codex agent interface metadata
+- `skills/copy-studio/SKILL.md`: the skill. Stages, gates, recipe library, self-checks
+- `commands/copy-studio.md`: the `/copy-studio` slash command. `install.sh` copies it into `~/.claude/commands/`. The Claude plugin does not load this file, so the plugin lists one skill
+- `skills/copy-studio/agents/openai.yaml`: Codex agent interface metadata
 - `.claude-plugin/`: Claude Code plugin manifest for the orchestrator only
 - `.codex-plugin/plugin.json` and `.agents/plugins/marketplace.json`: Codex plugin manifest for the orchestrator only
-- `references/channel-calibration-template.md`: scaffold for your fact base and samples
+- `skills/copy-studio/references/channel-calibration-template.md`: scaffold for your fact base and samples
 - `scripts/check_skill.py`: structural check for `SKILL.md`
 - `scripts/check_frontmatter.py`: checks the skill name and description length
 

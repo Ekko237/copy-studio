@@ -5,7 +5,7 @@
 #   bash install.sh
 #
 # Writes:
-#   ~/.claude/skills/copy-studio/          and ~/.codex/skills/copy-studio/
+#   skills/copy-studio/ into ~/.claude/skills/copy-studio/ and ~/.codex/skills/copy-studio/
 #   brainstorming, writing-plans, copywriting, copy-editing, humanizer
 #     in both skill folders, under those names
 #   ~/.claude/commands/copy-studio.md
@@ -36,8 +36,9 @@ if [[ ! -f "${BASH_SOURCE[0]:-}" ]]; then
 fi
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-if [[ ! -f "$ROOT/SKILL.md" || ! -f "$ROOT/scripts/install-deps.sh" || ! -f "$ROOT/commands/copy-studio.md" ]]; then
-  echo "install.sh needs a copy-studio checkout (SKILL.md, scripts/install-deps.sh, commands/copy-studio.md)." >&2
+SKILL_SRC="$ROOT/skills/copy-studio"
+if [[ ! -f "$SKILL_SRC/SKILL.md" || ! -f "$ROOT/scripts/install-deps.sh" || ! -f "$ROOT/commands/copy-studio.md" ]]; then
+  echo "install.sh needs a copy-studio checkout (skills/copy-studio/SKILL.md, scripts/install-deps.sh, commands/copy-studio.md)." >&2
   echo "From anywhere: curl -fsSL https://raw.githubusercontent.com/Ekko237/copy-studio/main/install.sh | bash" >&2
   exit 1
 fi
@@ -49,10 +50,10 @@ source "$ROOT/scripts/install-deps.sh"
 : "${COPY_STUDIO_CODEX_HOME:=$HOME/.codex}"
 export COPY_STUDIO_CLAUDE_HOME COPY_STUDIO_CODEX_HOME
 
-install_into "$ROOT" "${COPY_STUDIO_CLAUDE_HOME}/skills/copy-studio"
+install_into "$SKILL_SRC" "${COPY_STUDIO_CLAUDE_HOME}/skills/copy-studio"
 echo "Installed copy-studio -> ${COPY_STUDIO_CLAUDE_HOME}/skills/copy-studio"
 
-install_into "$ROOT" "${COPY_STUDIO_CODEX_HOME}/skills/copy-studio"
+install_into "$SKILL_SRC" "${COPY_STUDIO_CODEX_HOME}/skills/copy-studio"
 echo "Installed copy-studio -> ${COPY_STUDIO_CODEX_HOME}/skills/copy-studio"
 
 command_path="${COPY_STUDIO_CLAUDE_HOME}/commands/copy-studio.md"
@@ -76,6 +77,6 @@ Done.
   Dependencies:    brainstorming, writing-plans, copywriting, copy-editing, humanizer
                    in both skill folders, each with its upstream LICENSE.
 
-Then fill in your own fact base (see references/channel-calibration-template.md)
+Then fill in your own fact base (references/channel-calibration-template.md inside the installed skill)
 and ask for /copy-studio, or describe the copy job.
 EOF

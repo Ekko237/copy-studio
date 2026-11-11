@@ -3,8 +3,9 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
-template = (ROOT / "references" / "channel-calibration-template.md").read_text(encoding="utf-8")
+SKILL_DIR = ROOT / "skills" / "copy-studio"
+skill = (SKILL_DIR / "SKILL.md").read_text(encoding="utf-8")
+template = (SKILL_DIR / "references" / "channel-calibration-template.md").read_text(encoding="utf-8")
 errors = []
 
 # Every §X the skill cites must be a section the template scaffolds

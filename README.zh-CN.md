@@ -124,6 +124,26 @@ curl -fsSL https://raw.githubusercontent.com/Ekko237/copy-studio/main/install.sh
 
 更新。再跑一次上面的命令。它会刷新这个安装器自己放进去的副本。
 
+### Claude Code 和 Codex 插件
+
+下面的命令只安装调度器，不安装五个依赖技能。在检出的仓库里运行 `bash scripts/install-deps.sh` 可以装上这五个。上面的安装命令会把调度器和这五个技能一起装上。
+
+Claude Code：
+
+```bash
+claude plugin marketplace add Ekko237/copy-studio
+claude plugin install copy-studio@copy-studio
+```
+
+Codex：
+
+```bash
+codex plugin marketplace add Ekko237/copy-studio
+codex plugin add copy-studio@copy-studio
+```
+
+Claude Code 只列出一个技能，名字是 `copy-studio`。Codex 列出的是 `copy-studio:copy-studio`。安装脚本还会加上 `/copy-studio`。
+
 <details>
 <summary>其他安装方式</summary>
 
@@ -146,22 +166,16 @@ curl -fsSL https://raw.githubusercontent.com/Ekko237/copy-studio/main/install.sh
 这样只复制 Copy Studio，不装五个依赖。缺了哪个技能，调用它的那一步就跑不了。
 
 ```bash
-git clone https://github.com/Ekko237/copy-studio.git ~/.claude/skills/copy-studio
-git clone https://github.com/Ekko237/copy-studio.git ~/.codex/skills/copy-studio
-cp ~/.claude/skills/copy-studio/commands/copy-studio.md ~/.claude/commands/copy-studio.md
+git clone https://github.com/Ekko237/copy-studio.git
+mkdir -p ~/.claude/skills ~/.codex/skills ~/.claude/commands
+cp -R copy-studio/skills/copy-studio ~/.claude/skills/copy-studio
+cp -R copy-studio/skills/copy-studio ~/.codex/skills/copy-studio
+cp copy-studio/commands/copy-studio.md ~/.claude/commands/copy-studio.md
 ```
 
 ### Windows
 
 在 Git Bash 或 WSL 里运行安装命令。`~` 就是 `C:\Users\<你>`。
-
-### Claude Code 插件
-
-`.claude-plugin/` 是调度器的插件清单。插件只安装调度器。五个依赖要靠 `install.sh` 装进来。
-
-### Codex 插件
-
-`.codex-plugin/plugin.json` 和 `.agents/plugins/marketplace.json` 描述的是同一个调度器。它们不安装五个依赖。五个依赖要靠 `install.sh` 装进来。
 
 </details>
 
@@ -190,7 +204,7 @@ Copy Studio 是调度器。它不包含自己所调用的那五个技能。`inst
 1. **事实库。** 产品数据、能力、网址、定价、活动或奖励数字，唯一可以引用的来源。逐字引用。里面没有的写成 `TBD`。
 2. **渠道校准文件。** 每个你要发的渠道，放两三条已经通过的真实例句。例句比描述更能教形状和语气。
 
-[`references/channel-calibration-template.md`](references/channel-calibration-template.md) 是这两份材料的架子。一旦填了真实内容，它通常就是内部文件。仓库自带的 `.gitignore` 默认不把填好的副本放进 git。
+[`skills/copy-studio/references/channel-calibration-template.md`](skills/copy-studio/references/channel-calibration-template.md) 是这两份材料的架子。一旦填了真实内容，它通常就是内部文件。仓库自带的 `.gitignore` 默认不把填好的副本放进 git。
 
 ## 用法
 
@@ -247,12 +261,12 @@ Claude Code 和 Codex。安装会写到 `~/.claude` 和 `~/.codex`。
 - `CHANGELOG.md`: 更新记录（英文）
 - `install.sh`: 一条命令装上本技能、五个依赖和斜杠命令
 - `scripts/install-deps.sh`: 只装五个依赖
-- `SKILL.md`: 技能正文。步骤、关口、配方表、自检
-- `commands/copy-studio.md`: `/copy-studio` 斜杠命令。`install.sh` 会把它复制到 `~/.claude/commands/`
-- `agents/openai.yaml`: Codex 的代理界面元数据
+- `skills/copy-studio/SKILL.md`: 技能正文。步骤、关口、配方表、自检
+- `commands/copy-studio.md`: `/copy-studio` 斜杠命令。`install.sh` 会把它复制到 `~/.claude/commands/`。Claude 插件不加载这个文件，所以插件里只有一个技能
+- `skills/copy-studio/agents/openai.yaml`: Codex 的代理界面元数据
 - `.claude-plugin/`: Claude Code 插件清单，只包含调度器
 - `.codex-plugin/plugin.json` 和 `.agents/plugins/marketplace.json`: Codex 插件清单，只包含调度器
-- `references/channel-calibration-template.md`: 事实库和例句的架子
+- `skills/copy-studio/references/channel-calibration-template.md`: 事实库和例句的架子
 - `scripts/check_skill.py`: 检查 `SKILL.md` 的结构
 - `scripts/check_frontmatter.py`: 检查技能名和描述长度
 

@@ -4,12 +4,13 @@
 Fails when name is missing or description is empty or longer than 1024 characters.
 """
 
+import json
 import re
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SKILL = ROOT / "SKILL.md"
+SKILL = ROOT / "skills" / "copy-studio" / "SKILL.md"
 MAX_DESCRIPTION = 1024
 MAX_COMPATIBILITY = 500
 
@@ -32,6 +33,27 @@ def unquote(value):
 
 
 def main():
+    errors = []
+    skill_files = sorted(path.relative_to(ROOT).as_posix() for path in ROOT.glob("**/SKILL.md"))
+    if skill_files != ["skills/copy-studio/SKILL.md"]:
+        errors.append(
+            "expected exactly skills/copy-studio/SKILL.md, found "
+            + (", ".join(skill_files) if skill_files else "none")
+        )
+
+    claude_plugin = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8"))
+    if "skills" in claude_plugin:
+        errors.append("Claude plugin.json must not set skills; skills/copy-studio is the default scan")
+    if claude_plugin.get("commands") != []:
+        errors.append("Claude plugin.json must set commands to [] so commands/copy-studio.md is not a second skill")
+
+    codex_plugin = json.loads((ROOT / ".codex-plugin" / "plugin.json").read_text(encoding="utf-8"))
+    if codex_plugin.get("skills") != "./skills/":
+        errors.append('Codex plugin.json skills must be "./skills/"')
+
+    if errors:
+        fail(errors)
+
     text = SKILL.read_text(encoding="utf-8")
     errors = []
     if not text.startswith("---\n"):
