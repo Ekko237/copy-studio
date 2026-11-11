@@ -1,0 +1,185 @@
+# Copy Studio
+
+一个 **Claude Code / Codex 技能**。它把一条营销文案按五步走完——**策略 → 结构 → 起草 → 润色 → 去 AI 味**——并且**每一步结束都停下来等你确认**。可选的第六步，把已经确认的成稿翻译成这个渠道使用的语言。
+
+[English](README.md)
+
+它调度五个已经存在的技能，不替换它们：
+
+| 步骤 | 技能 | 产出 |
+|---|---|---|
+| 1. 策略 | `brainstorming` | 目标 · 目标用户 · 痛点 · 欲望 · 结果导向的价值主张 |
+| 2. 结构 | `writing-plans` | 一块一块的结构，每一块对应一个痛点或欲望 |
+| 3. 起草 | `copywriting` | 按这个渠道的配方写成的正文 |
+| 4. 润色 | `copy-editing` | Seven Sweeps 逐行修改 |
+| 5. 去 AI 味 | `humanizer` | 去掉 AI 痕迹、对齐语气 → 最终交付 |
+| 6. 本地化 *(可选)* | 你自己的本地化技能 | 把确认过的母稿译成渠道语言 |
+
+这五个技能都不在本仓库里——见[五个依赖技能](#五个依赖技能)。
+
+重点不是写得快。重点是一个入口、一条策略从头贯彻到底，以及步骤之间一定有一次给你看的确认。
+
+## 为什么每一步都要停
+
+这个技能要挡住的失败是：助手在同一条消息里同时交出策略、结构和成稿，角度其实已经替你定了。所以策略这一关是硬停。提出方向的那一轮里**没有任何候选成稿**。哪怕只回一句评论，也是两轮、两道关：先方向，后成稿。
+
+配套的规则是：可以少一点仪式，不能少一个步骤。「轻量」指的是轮次更少，不是步骤更少——第三步的草稿从来不是交付物。
+
+## 一次运行长什么样
+
+小任务会在任何成稿出现之前停一次，成稿出来再停一次。下面就是这个形状。**Northwind Kettle 是占位品牌，不是真实产品。** 事实库里没有价格、没有用户数、没有奖项，所以成稿里也没有。
+
+```text
+You
+  /copy-studio an Instagram caption for the spring kettle.
+  Someone outfitting a one-person kitchen. The plastic lid on their
+  current kettle slips when they pour. They want a kettle they can
+  leave on the table.
+  Fact base (placeholder only):
+    Product: Northwind Kettle — an enamel kettle with a wooden handle
+    URL: https://example.invalid/kettle
+    Price, ratings, awards, customer counts: none recorded
+
+Copy Studio
+  Stage 0 · Intake
+    Copy type: social promo caption (Instagram)
+    Asset and goal: one caption for the spring kettle
+    Size: small job — two gates, in two turns
+    Channel language: English, so Stage 6 does not run
+    Grounding: claims trace to the fact base above; gaps stay TBD
+
+  Stage 1 · Strategy · brainstorming
+    Goal: acquisition
+    Target user: someone outfitting a one-person kitchen
+    Pain: the plastic lid on their current kettle slips when they pour
+    Desire: a kettle they can leave on the table
+    Value proposition: an enamel kettle with a wooden handle
+    The pain and the desire are the ones you supplied at intake.
+
+  Stage 2 · Framework · writing-plans
+    Hook (slipping lid) → the product as stated (enamel, wooden handle) → bio-link CTA
+    No caption in this turn.
+
+  Stage 1 complete.
+  ✅ Approved — deliver the finished copy (polished + de-AI'd) · ✏️ Change something (say what) · ⏪ Redo this stage · ⛔ Stop here
+
+You
+  Approved
+
+Copy Studio
+  Stage 3 · Draft · copywriting
+    The lid on my old kettle slips when I pour.
+    This one is enamel, with a wooden handle.
+    Spring kettle. Link in the bio.
+
+  Stage 4 · Polish · copy-editing
+    Seven Sweeps. A line that called the handle "effortless" came out:
+    that word is not in the fact base. No new claim went in.
+
+  Stage 5 · De-AI · humanizer
+    A padded three-item list came out. The wording left is the draft above.
+    Polished + de-AI'd. Price and any sales figure are TBD, so they are not in the caption.
+
+  Stage 5 complete. Channel language matches the draft, so this is the deliverable.
+  ✅ Approved · ✏️ Change something (say what) · ⏪ Redo this stage · ⛔ Stop here
+```
+
+大任务会在每一步之后印出同一份菜单，第一项是 `✅ Approved, continue to Stage N+1`。提出方向的那一轮里，仍然没有候选成稿。
+
+## 安装
+
+一条命令把 Copy Studio、五个依赖技能，以及 `/copy-studio` 斜杠命令装进 `~/.claude` 和 `~/.codex`：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Ekko237/copy-studio/main/install.sh | bash
+```
+
+已经克隆了本仓库的话，`bash install.sh` 做的是同一件事。`bash scripts/install-deps.sh` 只安装那五个依赖。
+
+脚本会写入：
+
+- `~/.claude/skills/copy-studio/` 和 `~/.codex/skills/copy-studio/`
+- `brainstorming`、`writing-plans`、`copywriting`、`copy-editing`、`humanizer`，两个技能目录里各一份，文件夹名就是这些名字
+- `~/.claude/commands/copy-studio.md`，也就是 `/copy-studio` 斜杠命令
+
+每个依赖都从它自己的上游仓库克隆，许可仍是那个项目自己的许可。装好的文件夹里有上游的 `LICENSE`（原样复制；技能目录自己没有时，从仓库根目录复制），以及一个 `UPSTREAM` 文件，里面是仓库地址、路径和 commit。Copy Studio 不会把它们改成自己的许可。某个路径上如果已经有文件夹，而且不是这个安装器放的，会先改名为 `*.bak-<时间戳>`。再跑一次脚本，会刷新它管理的那些副本。
+
+在 Windows 上用 Git Bash 或 WSL 运行。`~` 就是 `C:\Users\<你>`。技能目录不在默认位置时，设置 `COPY_STUDIO_CLAUDE_HOME` 和 `COPY_STUDIO_CODEX_HOME`。
+
+只装 Copy Studio、不装依赖：
+
+```bash
+git clone https://github.com/Ekko237/copy-studio.git ~/.claude/skills/copy-studio
+git clone https://github.com/Ekko237/copy-studio.git ~/.codex/skills/copy-studio
+cp ~/.claude/skills/copy-studio/commands/copy-studio.md ~/.claude/commands/copy-studio.md
+```
+
+缺了哪个技能，调用它的那一步就跑不了。Copy Studio 不会拿自己的文字去顶替。
+
+## 五个依赖技能
+
+Copy Studio 是**调度器**。它不包含自己所调用的那五个技能。`install.sh` 会帮你克隆它们；它们仍然是别人的项目，各自保留自己的许可：
+
+| 步骤 | 调用的技能 | 从哪里来 |
+|---|---|---|
+| 1. 策略 | `brainstorming` | [obra/superpowers](https://github.com/obra/superpowers) → `skills/brainstorming/` |
+| 2. 结构 | `writing-plans` | [obra/superpowers](https://github.com/obra/superpowers) → `skills/writing-plans/` |
+| 3. 起草 | `copywriting` | [coreyhaines31/marketingskills](https://github.com/coreyhaines31/marketingskills) → `skills/copywriting/` |
+| 4. 润色 | `copy-editing` | [coreyhaines31/marketingskills](https://github.com/coreyhaines31/marketingskills) → `skills/copy-editing/` |
+| 5. 去 AI 味 | `humanizer` | [blader/humanizer](https://github.com/blader/humanizer) |
+
+三个上游项目都是 MIT 许可。以各仓库里的现行条款为准。Copy Studio 按名字调用它们，所以上游更新之后仍然对得上。缺一个，调用它的那一步就跑不了。
+
+第 6 步（本地化）是可选的，需要你自己的本地化技能。安装器不会加一个进来。
+
+## 第一次真正跑之前：带上你自己的品牌材料
+
+这个仓库**故意不带品牌事实、产品数据、奖金数字和示例文案**。编造一个数字，是文案流水线最糟的失败；别人的例句也会教错语气。有两份材料要你自己写：
+
+1. **事实库** — 产品数据、能力、网址、定价、活动或奖励数字，唯一可以引用的来源。逐字引用；里面没有的写成 `TBD`，不要猜。
+2. **渠道校准文件** — 每个你要发的渠道，放 2–3 条已经通过的真实例句。例句比任何描述都更能教形状和语气。
+
+[`references/channel-calibration-template.md`](references/channel-calibration-template.md) 是这两份材料的架子。一旦填了真实内容，它通常就是内部文件——仓库自带的 `.gitignore` 默认不把填好的副本放进 git。
+
+## 用法
+
+```
+/copy-studio an Instagram post for the new template library
+```
+
+也可以直接描述任务，让技能自己触发。它从**第 0 步（受理）**开始：文案类型和渠道、资产和目标（一行）、规模、输出语言、以及你手头有什么材料。然后一轮一步，每步停在关口：
+
+> **Stage N complete.** […output…]
+> ✅ Approved, continue to Stage N+1 · ✏️ Change something · ⏪ Redo this stage · ⛔ Stop here
+
+大任务（整页、整套幻灯片、一整场活动）每一步都有关口。小任务（一条评论、一篇帖子、一条配文、一张卡片）有两道关：先方向，然后是已经润色并去掉 AI 味的成稿。
+
+已经有简报？从第 2 步开始。有一篇想收尾的草稿？从第 4 步开始。只想去掉 AI 味？直接调用 `humanizer`。
+
+## 流程之外还有什么
+
+- **每种文案六个字段的配方** — 形状 · 必须包含 · 长度和语气 · 行动号召 / 链接 · 依据 · 视觉。新渠道不用改代码：当场填好这六个字段，它就成为配方表里的一行。
+- **一份配方表**，覆盖落地页价值卡片、社群帖、四种评论回复、幻灯片、广告、各平台社媒配文、邮件，以及图片很多的模板邮件。
+- **容易写错的渠道限制** — 例如信息流里的链接点不了的平台，行动号召要指向简介里的链接，所以两个平台不能共用一条配文；Reddit 正文里不能有链接、不能有话题标签，品牌主评论里不写奖励，新账号更要克制。
+- **给你看之前的自检**，草稿必须先过：语气、依据、形状、长度、AI 痕迹、先写文字、渠道规则、语言。
+- **最后才翻译** — 翻译只发生在第 6 步，而且只译成这个渠道的那一种语言。一个渠道一种语言；多语言展开是给全站内容的，不是给一条评论的。
+
+## 工作语言和成稿语言
+
+技能把你**说话**用的语言和文案**发出去**用的语言分开。团队用一种语言工作、用另一种语言做市场时，这很有用。每份交付旁边有一段工作语言的短注，说明每一行在做什么，这样看不懂目标语言的人也能提意见。默认值在第 0 步可以改。
+
+## 文件
+
+- `README.md` — 英文说明 · [English](README.md)
+- `README.zh-CN.md` — 你在这里
+- `install.sh` — 一条命令装上本技能、五个依赖和斜杠命令
+- `scripts/install-deps.sh` — 只装五个依赖
+- `SKILL.md` — 技能正文：步骤、关口、配方表、自检
+- `commands/copy-studio.md` — `/copy-studio` 斜杠命令（`install.sh` 会把它复制到 `~/.claude/commands/`）
+- `agents/openai.yaml` — Codex 的代理界面元数据
+- `references/channel-calibration-template.md` — 事实库和例句的架子
+- `scripts/check_skill.py` — 检查 `SKILL.md` 的结构（章节引用、表格是否完整、自检条数）；改完技能后跑它
+
+## 许可
+
+Copy Studio 本身是 MIT，见 [LICENSE](LICENSE)。五个依赖技能保持各自仓库里的许可，安装器不会改写。
