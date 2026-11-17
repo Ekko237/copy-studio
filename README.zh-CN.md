@@ -229,6 +229,8 @@ Copy Studio 是调度器。它不包含自己所调用的那五个技能。`inst
 
 [`skills/copy-studio/references/channel-calibration-template.md`](skills/copy-studio/references/channel-calibration-template.md) 是这两份材料的架子。一旦填了真实内容，它通常就是内部文件。仓库自带的 `.gitignore` 默认不把填好的副本放进 git。
 
+**填好的文件放在安装好的技能目录之外。** 重新安装或更新时，`install.sh` 会替换它管理的每个目录（`~/.claude/skills/copy-studio/`、`~/.codex/skills/copy-studio/`，以及五个依赖技能的目录）：先删掉里面已有的内容，再复制一份新的进去。只有不是它放的文件夹才会改名为 `*.bak-<时间戳>`。你放进受管目录里的事实库或校准文件都会被删掉，不管 git 是否忽略它。把填好的副本存在这两个受管技能目录之外的私有位置，开始任务时把这些路径告诉代理。
+
 ## 用法
 
 ```

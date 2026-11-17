@@ -84,5 +84,6 @@ Notes / traps: what got rejected here before, and why.
 ## Housekeeping
 
 - **Keep this file out of public repos once it holds real material** — approved samples, unpublished stats, prize structures, and channel performance notes are usually internal. Add it to `.gitignore`, or keep it in a private location and point the skill at that path.
+- **Don't keep your filled-in copy inside an installed skill folder.** A reinstall or update via `install.sh` empties each managed skill folder (`~/.claude/skills/copy-studio/` and `~/.codex/skills/copy-studio/`) before copying in a fresh source, so files you added there are deleted, even if git ignores them. Keep filled-in copies in a private location outside both folders and point the agent at that path.
 - Record *why* a sample was approved, not just the text. The reason is what generalizes to the next piece.
 - When a channel rule changes (a platform stops making links clickable, a subreddit tightens its policy), update the rule **and** date it.
