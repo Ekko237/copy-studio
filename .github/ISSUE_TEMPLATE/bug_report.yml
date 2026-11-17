@@ -1,0 +1,74 @@
+name: Bug report
+description: Report an installation problem or a Copy Studio run that broke.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Include enough detail to reproduce the problem. Remove secrets, private copy, brand facts, names, and other personal information from every field and attachment.
+  - type: input
+    id: skill_version
+    attributes:
+      label: Copy Studio version
+      description: The metadata.version in skills/copy-studio/SKILL.md, or the installed release. Say unknown if unavailable.
+    validations:
+      required: true
+  - type: dropdown
+    id: agent
+    attributes:
+      label: Agent
+      options:
+        - Claude Code
+        - Codex
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: agent_version
+    attributes:
+      label: Agent name and version
+      description: Give the version your agent reports. If you chose Other, include its name.
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system and shell
+      description: Include the OS version and whether you use Git Bash or WSL on Windows.
+    validations:
+      required: true
+  - type: input
+    id: installation
+    attributes:
+      label: Installation method
+      description: For example, install.sh, npx skills, a Claude Code or Codex plugin, or a folder copy. Note any missing dependency skills.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: What you asked and how to reproduce
+      description: Include the exact command or prompt, steps, and the stage or approval gate where it failed. Use sanitized source material.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized logs or transcript excerpt
+      description: Paste the relevant installer output or session excerpt. Remove secrets and private material first; say unavailable if there is no excerpt.
+      render: text
+    validations:
+      required: true
