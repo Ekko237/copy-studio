@@ -1,0 +1,58 @@
+name: Feature request
+description: Suggest a focused improvement to Copy Studio.
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe a real copy workflow and the improvement you need. Remove secrets, private brand facts, unpublished copy, and personal information from examples and attachments.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Installation or dependencies
+        - Intake or approval gates
+        - Copy recipes or channel rules
+        - Grounding or calibration
+        - Localization
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Agent, versions, and OS
+      description: If relevant, include Claude Code or Codex and its version, Copy Studio version, OS, and installation method.
+    validations:
+      required: false
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Describe the copy type, channel, and stage involved. Include a sanitized command or prompt if helpful.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed improvement
+      description: Explain the behavior you want and how it fits the staged workflow and approval gates.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives or workarounds
+      description: What have you tried with the existing recipes, calibration files, or dependency skills?
+    validations:
+      required: false
+  - type: textarea
+    id: success
+    attributes:
+      label: How would we verify it works?
+      description: Describe a small example and the expected result without private source material.
+    validations:
+      required: false

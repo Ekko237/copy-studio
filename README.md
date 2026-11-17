@@ -298,3 +298,5 @@ The skill separates your working language (how you talk to the agent) from the d
 MIT. See [LICENSE](LICENSE).
 
 Tried it? Open an [issue](https://github.com/Ekko237/copy-studio/issues) and tell me what broke or what you made.
+
+If this saved you some time, a ⭐ helps other people find it. Issues and PRs welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
