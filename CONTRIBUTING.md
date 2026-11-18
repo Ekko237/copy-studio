@@ -28,10 +28,11 @@ Expect Stage 0, a strategy with no candidate copy, and an approval gate. For rea
 
 ## Checks
 
-Run every command below from the checkout root. These are the exact commands in [.github/workflows/check.yml](.github/workflows/check.yml); there is no separate test suite.
+Run every command below from the checkout root. These are the exact commands in [.github/workflows/check.yml](.github/workflows/check.yml).
 
 ```bash
 python3 scripts/check_frontmatter.py
+python3 -m unittest scripts.test_check_frontmatter
 python3 scripts/check_skill.py
 bash -n install.sh
 bash -n scripts/install-deps.sh
