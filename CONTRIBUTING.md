@@ -33,10 +33,11 @@ Run every command below from the checkout root. These are the exact commands in 
 ```bash
 python3 scripts/check_frontmatter.py
 python3 -m unittest scripts.test_check_frontmatter
+python3 -m unittest scripts.test_install_into
 python3 scripts/check_skill.py
 bash -n install.sh
 bash -n scripts/install-deps.sh
-python3 -m py_compile scripts/check_skill.py scripts/check_frontmatter.py
+python3 -m py_compile scripts/check_skill.py scripts/check_frontmatter.py scripts/test_install_into.py
 python3 -c "import json, pathlib; files=['.claude-plugin/plugin.json', '.claude-plugin/marketplace.json', '.codex-plugin/plugin.json', '.agents/plugins/marketplace.json']; [json.loads(pathlib.Path(p).read_text(encoding='utf-8')) for p in files]; print('manifests ok')"
 ```
 
