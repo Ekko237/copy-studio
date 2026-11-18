@@ -8,7 +8,34 @@ import tempfile
 import unittest
 
 SCRIPT = pathlib.Path(__file__).resolve().parent / "install-deps.sh"
-BASH = shutil.which("bash") or "bash"
+
+
+def find_bash():
+    """Return a usable bash, or None. On Windows, prefer Git Bash over the WSL launcher."""
+    if os.name != "nt":
+        return shutil.which("bash")
+    candidates = []
+    for var in ("ProgramFiles", "ProgramFiles(x86)", "LOCALAPPDATA"):
+        base = os.environ.get(var)
+        if base:
+            candidates.append(pathlib.Path(base) / "Git" / "bin" / "bash.exe")
+            candidates.append(pathlib.Path(base) / "Programs" / "Git" / "bin" / "bash.exe")
+    git = shutil.which("git")
+    if git:
+        candidates.append(pathlib.Path(git).resolve().parent.parent / "bin" / "bash.exe")
+    for path in candidates:
+        if path.is_file():
+            return str(path)
+    found = shutil.which("bash")
+    if found:
+        low = found.lower()
+        # Skip the WSL launcher (System32 / WindowsApps).
+        if "\system32\\" not in low and "windowsapps" not in low:
+            return found
+    return None
+
+
+BASH = find_bash()
 MARKER = ".copy-studio-managed"
 
 
@@ -29,6 +56,7 @@ def run_install_into(src, dest):
     )
 
 
+@unittest.skipUnless(BASH, "no usable bash found (Git Bash on Windows, or bash on PATH)")
 class InstallIntoTests(unittest.TestCase):
     def setUp(self):
         tmp = tempfile.TemporaryDirectory()
@@ -87,6 +115,7 @@ class InstallIntoTests(unittest.TestCase):
     def test_missing_source_fails(self):
         result = run_install_into(self.root / "absent", self.dest)
         self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Missing source directory", result.stderr)
         self.assertFalse(self.dest.exists())
 
 
