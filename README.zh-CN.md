@@ -280,18 +280,23 @@ Claude Code 和 Codex。安装会写到 `~/.claude` 和 `~/.codex`。
 
 ## 文件
 
-- `README.zh-CN.md`: 你在这里。[English](README.md)
-- `CHANGELOG.md`: 更新记录（英文）
-- `install.sh`: 一条命令装上本技能、五个依赖和斜杠命令
-- `scripts/install-deps.sh`: 只装五个依赖
-- `skills/copy-studio/SKILL.md`: 技能正文。步骤、关口、配方表、自检
-- `commands/copy-studio.md`: `/copy-studio` 斜杠命令。`install.sh` 会把它复制到 `~/.claude/commands/`。Claude 插件不加载这个文件，所以插件里只有一个技能
-- `skills/copy-studio/agents/openai.yaml`: Codex 的代理界面元数据
-- `.claude-plugin/`: Claude Code 插件清单，只包含调度器
-- `.codex-plugin/plugin.json` 和 `.agents/plugins/marketplace.json`: Codex 插件清单，只包含调度器
-- `skills/copy-studio/references/channel-calibration-template.md`: 事实库和例句的架子
-- `scripts/check_skill.py`: 检查 `SKILL.md` 的结构
-- `scripts/check_frontmatter.py`: 检查技能名和描述长度
+<details>
+<summary>文件</summary>
+
+```
+├─ skills/                 copy-studio 技能：SKILL.md、references、agents
+├─ commands/               /copy-studio 斜杠命令
+├─ scripts/                依赖安装器和技能检查脚本
+├─ docs/                   README 截图
+├─ install.sh              一键安装脚本
+├─ CHANGELOG.md            更新记录
+├─ .claude-plugin/         Claude Code 市场和插件清单
+├─ .codex-plugin/          Codex 插件清单
+├─ .agents/                Codex 市场清单
+└─ .github/                issue 模板、PR 模板和 CI 工作流
+```
+
+</details>
 
 ## 许可
 
