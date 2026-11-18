@@ -13,6 +13,9 @@ jobs:
       - name: Check SKILL.md frontmatter
         run: python3 scripts/check_frontmatter.py
 
+      - name: Test frontmatter unquoting
+        run: python3 -m unittest scripts.test_check_frontmatter
+
       - name: Check SKILL.md structure
         run: python3 scripts/check_skill.py
 
