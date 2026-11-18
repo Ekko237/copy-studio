@@ -30,7 +30,7 @@ def find_bash():
     if found:
         low = found.lower()
         # Skip the WSL launcher (System32 / WindowsApps).
-        if "\system32\\" not in low and "windowsapps" not in low:
+        if "system32" not in low and "windowsapps" not in low:
             return found
     return None
 
