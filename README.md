@@ -280,18 +280,23 @@ The skill separates your working language (how you talk to the agent) from the d
 
 ## Layout
 
-* `README.md`: you are here. [中文说明](README.zh-CN.md)
-* `CHANGELOG.md`: release notes
-* `install.sh`: one-command install of this skill, the five dependencies, and the slash command
-* `scripts/install-deps.sh`: the five dependencies only
-* `skills/copy-studio/SKILL.md`: the skill — stages, gates, recipe library, and self-checks
-* `commands/copy-studio.md`: the `/copy-studio` slash command. `install.sh` copies it into `~/.claude/commands/`. The Claude plugin does not load this file, so the plugin lists one skill
-* `skills/copy-studio/agents/openai.yaml`: Codex agent interface metadata
-* `.claude-plugin/`: Claude Code plugin manifest for the orchestrator only
-* `.codex-plugin/plugin.json` and `.agents/plugins/marketplace.json`: Codex plugin manifests for the orchestrator only
-* `skills/copy-studio/references/channel-calibration-template.md`: scaffold for your fact base and samples
-* `scripts/check_skill.py`: structural check for `SKILL.md`
-* `scripts/check_frontmatter.py`: checks the skill name and description length
+<details>
+<summary>Layout</summary>
+
+```
+├─ skills/                 copy-studio skill: SKILL.md, references, agents
+├─ commands/               /copy-studio slash command
+├─ scripts/                dependency installer and skill checks
+├─ docs/                   README screenshots
+├─ install.sh              one-command installer
+├─ CHANGELOG.md            release notes
+├─ .claude-plugin/         Claude Code marketplace and plugin manifests
+├─ .codex-plugin/          Codex plugin manifest
+├─ .agents/                Codex marketplace manifest
+└─ .github/                issue templates, PR template, and CI workflows
+```
+
+</details>
 
 ## License
 

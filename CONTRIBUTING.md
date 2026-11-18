@@ -46,4 +46,5 @@ Python compilation creates `scripts/__pycache__/`; remove generated files before
 - Work on a focused topic branch and target `main` with your pull request.
 - Explain the problem, the change, and which checks you ran. For behavior changes, describe a manual run and its approval gates using sanitized material.
 - Keep English and Chinese README instructions consistent when changing shared behavior. Do not include secrets, private brand facts, or personal information.
+- If you change folder structure, update the README tree in the same PR.
 - Follow the existing release format in `CHANGELOG.md`: dated version headings and `v<version>` release links. For release changes, keep `metadata.version` in `skills/copy-studio/SKILL.md`, both plugin manifest versions, and the entry in `.claude-plugin/marketplace.json` aligned. Avoid unrelated version changes.
