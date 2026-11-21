@@ -263,6 +263,8 @@ Use [`skills/copy-studio/references/channel-calibration-template.md`](skills/cop
 
 **Keep filled-in files outside the installed skill folders.** On a reinstall or update, `install.sh` replaces each folder it manages (`~/.claude/skills/copy-studio/`, `~/.codex/skills/copy-studio/`, and the five dependency folders): it deletes the existing contents and copies in a fresh source. Only folders it did not create are renamed to `*.bak-<timestamp>`. Any fact base or calibration file you add inside a managed folder is removed, whether or not git ignores it. Save filled-in copies in a private location outside both managed skill destinations, and give the agent those paths when you start a job.
 
+**Keep filled-in files outside the installed skill folders.** On a reinstall or update, `install.sh` replaces each folder it manages (`~/.claude/skills/copy-studio/`, `~/.codex/skills/copy-studio/`, and the five dependency folders): it deletes the existing contents and copies in a fresh source. Only folders it did not create are renamed to `*.bak-<timestamp>`. Any fact base or calibration file you add inside a managed folder is removed, whether or not git ignores it. Save filled-in copies in a private location outside both managed skill destinations, and give the agent those paths when you start a job.
+
 ## Usage
 
 ```
