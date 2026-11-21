@@ -1,12 +1,49 @@
 # Copy Studio
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 [![License: MIT](https://img.shields.io/github/license/Ekko237/copy-studio)](LICENSE)
 [![Latest release](https://img.shields.io/github/v/release/Ekko237/copy-studio)](https://github.com/Ekko237/copy-studio/releases/latest)
 [![Changelog](https://img.shields.io/badge/changelog-CHANGELOG.md-blue)](CHANGELOG.md)
 
-A Claude Code and Codex skill. It runs one marketing-copy job through five stages — **strategy, framework, draft, polish, and de-AI** — stopping at a gate for your approval after each stage, with an optional sixth stage to localize the approved copy into the channel's language.
+A Claude Code / Codex skill that takes one marketing-copy job through strategy, framework, draft, polish, and de-AI, stopping for the user's approval after each stage. It has an optional sixth stage to localize the approved copy into the channel's language. It orchestrates five existing skills; it does not replace or bundle them.
 
-[中文说明](README.zh-CN.md)
+## Who it's for
+
+Founders, marketers, and indie developers who already use Claude Code or Codex and need marketing copy taken from a brief to a finished piece. That includes landing-page modules, community posts, comment replies, deck slides, ads, social captions, and email. You approve the direction before any copy is written.
+
+## Why try it now
+
+The failure this skill is built to prevent: an assistant hands you a strategy, a framework, and a finished draft in one message, and has already chosen the angle. Copy Studio blocks that. The turn that proposes the direction contains **no candidate copy**. That stop has no exceptions.
+
+A small job uses fewer turns but still runs every stage. A raw Stage 3 draft is not the deliverable.
+
+Proof already in this repo: screenshots from a real run on mealow.app hero copy. Replies at each stop were typed by hand; some lines trimmed.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Ekko237/copy-studio/main/install.sh | bash
+```
+
+This installs Copy Studio, the five dependency skills, and the `/copy-studio` command into both `~/.claude` and `~/.codex`.
+
+Requires git, bash, tar, and a network connection.
+
+Using the skills CLI is a separate path:
+
+`npx skills add https://github.com/Ekko237/copy-studio --skill copy-studio` installs only the orchestrator (via the npx skills CLI; works across Claude Code, Codex, and other agents) and does not install the five dependency skills or the `/copy-studio` slash command. It copies the skill to `.agents/skills/copy-studio` in the folder where you ran the command. If the installer asks for confirmation, you can add `-y`. To add the five dependencies later from a checkout: `bash scripts/install-deps.sh`.
+
+[Usage](#usage) · [Report an issue](https://github.com/Ekko237/copy-studio/issues) · [Contributing](CONTRIBUTING.md) · [ClawHub](https://clawhub.ai/ekko237/skills/copy-studio)
+
+If it helps, a ★ Star helps others find it.
+
+## Requirements
+
+- git, bash, tar, and a network connection for `install.sh`
+- Node.js is needed only if you use the `npx skills` path
+- Claude Code and/or Codex; the installer writes to `~/.claude` and `~/.codex`
+- At least the five dependency skills for a full run; `install.sh` clones them. A missing skill means that stage does not run — Copy Studio will not write that stage itself
+- Stage 6 is optional and needs your own localization skill; the installer does not include one
+- Windows: run the install command from Git Bash or WSL; `~` maps to `C:\Users\<you>`
 
 <table>
   <tr>
@@ -23,8 +60,6 @@ A Claude Code and Codex skill. It runs one marketing-copy job through five stage
 
 <p><em>From a real run on mealow.app hero copy. Replies at each stop were typed by hand; some lines trimmed.</em></p>
 
-It orchestrates five existing skills. It does not replace them.
-
 | Stage | Skill | What it produces |
 | --- | --- | --- |
 | 1. Strategy | `brainstorming` | goal, target user, pains, desires, and a result-oriented value proposition |
@@ -36,11 +71,38 @@ It orchestrates five existing skills. It does not replace them.
 
 Those five skills are not in this repo. See [Dependencies](#dependencies).
 
-It keeps one strategy from Stage 1 to the end, and waits for your sign-off between stages.
+## Quick use
+
+```text
+/copy-studio an Instagram post for the new template library
+```
+
+Open a new Claude Code or Codex session after install. Expect Stage 0, a strategy turn with no candidate copy, and a gate menu waiting for input.
+
+For a real job, prepare a fact base and channel calibration file as described later. Already have a brief? Start at Stage 2. Have a draft that needs finishing? Start at Stage 4. Just want the AI smell removed? Call `humanizer` directly.
+
+## When not to use it
+
+- Not for essays, fiction, or general writing outside marketing copy for a channel
+- Not if you want a one-shot draft with no approval gates
+- Not if you do not use Claude Code or Codex; those are the supported tools, and the installer writes to `~/.claude` and `~/.codex`
+- Not if you need the model to invent stats, prices, awards, or customer counts — this repo ships with no brand facts, and any claim missing from your fact base stays `TBD`
+- Not a replacement for the five upstream skills if you only need one stage
+- Stage 6 will not run unless you provide your own localization skill
+
+## Compared with alternatives
+
+| Approach | Tradeoff |
+| --- | --- |
+| Ask a general chat model to “write the copy” in one message | No approval gate; the model picks the angle |
+| Call the five skills yourself, one after another | Uses the same skills, but you keep the strategy consistent and remember the gates |
+| Copy Studio | Orchestrates those skills, keeps one strategy from Stage 1 to the end, and hard-stops before any candidate copy exists |
+
+Hiring a copywriter is another option: a human copywriter may bring human judgment and research. This skill does not replace that role.
 
 ## Why the stops matter
 
-The failure this skill is built to prevent: an assistant hands you a strategy, a framework, and a finished draft in one message. It has already chosen the angle, before you can steer it. Copy Studio blocks that. The turn that proposes the direction contains **no candidate copy**. That stop has no exceptions. Even a one-line comment reply gets two stops across two turns: direction first, finished copy second.
+The failure this skill is built to prevent: an assistant hands you a strategy, a framework, and a finished draft in one message. It has already chosen the angle, before you can steer it. Copy Studio blocks that. The turn that proposes the direction contains **no candidate copy**. That stop has no exceptions.
 
 A small job uses fewer turns, but still runs every stage. A raw Stage 3 draft is not the deliverable.
 
@@ -110,49 +172,24 @@ Copy Studio
 
 On a big job, the same menu prints after every stage, and the first option reads `✅ Approved, continue to Stage N+1`. The turn that proposes the direction still contains no candidate copy.
 
-## Install
-
-```bash
-npx skills add https://github.com/Ekko237/copy-studio --skill copy-studio
-```
-
-This does not install the five dependency skills; `install.sh` installs them with Copy Studio, and `bash scripts/install-deps.sh` installs only those five.
-
-That installs the skill via the [`npx skills`](https://github.com/vercel-labs/skills) CLI (works across Claude Code, Codex and other agents).
-
-Requires git, bash, tar, and a network connection.
-
-<details>
-<summary>install.sh</summary>
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/Ekko237/copy-studio/main/install.sh | bash
-```
-
-This installs Copy Studio, the five dependency skills, and the `/copy-studio` command into both `~/.claude` and `~/.codex`.
-
-</details>
+## Other install paths
 
 <details>
 <summary>Claude Code plugin</summary>
 
-Plugin commands install only the orchestrator. They do not install the five dependency skills. To get everything in one go, use the `curl` command above, or run `bash scripts/install-deps.sh` from a checkout to install the five dependencies separately.
-
-Claude Code:
+Plugin commands install only the orchestrator. They do not install the five dependency skills.
 
 ```bash
 claude plugin marketplace add Ekko237/copy-studio
 claude plugin install copy-studio@copy-studio
 ```
 
-Claude Code lists one skill, named `copy-studio`. The `install.sh` script also adds the `/copy-studio` slash command.
+Claude Code lists one skill, named `copy-studio`.
 
 </details>
 
 <details>
 <summary>Codex plugin</summary>
-
-Codex:
 
 ```bash
 codex plugin marketplace add Ekko237/copy-studio
@@ -164,23 +201,26 @@ Codex lists `copy-studio:copy-studio`.
 </details>
 
 <details>
-<summary>Other install paths</summary>
+<summary>From a checkout</summary>
 
-### From a checkout
-
-`bash install.sh` does the same thing as the `curl` command above. `bash scripts/install-deps.sh` installs only the five dependencies.
+`bash install.sh` does the same thing as the curl command above. `bash scripts/install-deps.sh` installs only the five dependencies.
 
 The script writes:
 
-* `~/.claude/skills/copy-studio/` and `~/.codex/skills/copy-studio/`
-* `brainstorming`, `writing-plans`, `copywriting`, `copy-editing`, and `humanizer`, in both skill folders, under those names
-* `~/.claude/commands/copy-studio.md`, which is the `/copy-studio` command
+- `~/.claude/skills/copy-studio/` and `~/.codex/skills/copy-studio/`
+- `brainstorming`, `writing-plans`, `copywriting`, `copy-editing`, and `humanizer` in both skill folders, under those names
+- `~/.claude/commands/copy-studio.md` (`/copy-studio`)
 
 If a folder already exists at one of those paths and was not created by this installer, the script renames it to `*.bak-<timestamp>` first.
 
-To use custom skill paths, set `COPY_STUDIO_CLAUDE_HOME` and `COPY_STUDIO_CODEX_HOME`.
+Custom paths: `COPY_STUDIO_CLAUDE_HOME` and `COPY_STUDIO_CODEX_HOME`.
 
-### Folder only
+Re-run the install command to refresh the copies managed by this installer.
+
+</details>
+
+<details>
+<summary>Folder-only install</summary>
 
 This copies Copy Studio and skips the five dependencies. Any stage whose skill is missing will not run.
 
@@ -192,15 +232,7 @@ cp -R copy-studio/skills/copy-studio ~/.codex/skills/copy-studio
 cp copy-studio/commands/copy-studio.md ~/.claude/commands/copy-studio.md
 ```
 
-### Windows
-
-Run the install command from Git Bash or WSL. `~` maps to `C:\Users\<you>`.
-
 </details>
-
-**Verify:** Open a new Claude Code or Codex session and run `/copy-studio an Instagram post for the new template library`. You should see Stage 0, a strategy turn with no candidate copy, and a gate menu waiting for your input.
-
-**Update:** Re-run the install command to refresh the copies managed by this installer.
 
 ## Dependencies
 
@@ -214,20 +246,22 @@ Copy Studio is an orchestrator. It does not bundle the five skills it calls. `in
 | 4. Polish | `copy-editing` | [coreyhaines31/marketingskills](https://github.com/coreyhaines31/marketingskills) → `skills/copy-editing/` |
 | 5. De-AI | `humanizer` | [blader/humanizer](https://github.com/blader/humanizer) |
 
-All three upstream projects are MIT-licensed. Check each repository for its current terms. Copy Studio calls these skills by name, so newer upstream versions continue to work. If a skill is missing, that stage does not run — Copy Studio will not fall back to writing that stage itself.
+All three upstream projects are MIT-licensed. Check each repository for its current terms. Copy Studio calls these skills by name. If a skill is missing, that stage does not run — Copy Studio will not fall back to writing that stage itself.
 
-Each installed dependency keeps its original `LICENSE` and an `UPSTREAM` file recording the repository URL, path, and commit. Copy Studio does not relicense them.
+Each installed dependency keeps its original `LICENSE` and an `UPSTREAM` file. Copy Studio does not relicense them.
 
 Stage 6 is optional and requires your own localization skill. The installer does not include one.
 
 ## Before your first real run
 
-This repo ships with no brand facts, product stats, prize figures, or sample copy. Inventing a number is the worst failure a copy pipeline can make, and someone else's samples would teach the wrong voice. Before running a real job, create two files:
+This repo ships with no brand facts, product stats, prize figures, or sample copy. Before running a real job, create:
 
 1. **A fact base.** The only citable source for your product's stats, capabilities, URLs, pricing, and program or reward figures. Copy Studio quotes it verbatim and marks anything missing as `TBD`.
 2. **A channel calibration file.** Two or three approved real samples per channel you ship to. Samples teach shape and voice better than a description.
 
-Use [`skills/copy-studio/references/channel-calibration-template.md`](skills/copy-studio/references/channel-calibration-template.md) as the scaffold for both. Once it holds real material it is usually internal. The included `.gitignore` keeps filled-in copies out of git by default.
+Use [`skills/copy-studio/references/channel-calibration-template.md`](skills/copy-studio/references/channel-calibration-template.md) as the scaffold for both. The included `.gitignore` keeps filled-in copies out of git by default.
+
+**Keep filled-in files outside the installed skill folders.** On a reinstall or update, `install.sh` replaces each folder it manages (`~/.claude/skills/copy-studio/`, `~/.codex/skills/copy-studio/`, and the five dependency folders): it deletes the existing contents and copies in a fresh source. Only folders it did not create are renamed to `*.bak-<timestamp>`. Any fact base or calibration file you add inside a managed folder is removed, whether or not git ignores it. Save filled-in copies in a private location outside both managed skill destinations, and give the agent those paths when you start a job.
 
 ## Usage
 
@@ -268,13 +302,13 @@ From your fact base. This repo ships with no product stats, prize figures, or sa
 
 ## What else is in the pipeline
 
-* **Six fields per copy type.** Shape, must-include, length and voice, CTA and link, grounding, and visual support. Adding a new channel requires no code — fill out the six fields to add a row to the library.
-* **A recipe library.** Covers landing-page value cards, community posts, four kinds of comment reply, deck slides, ads, per-platform social captions, email, and image-heavy template email.
-* **Channel rules that are easy to get wrong.** Platforms without clickable in-feed links use a bio-link CTA, so two platforms never share one caption. Reddit takes zero links and zero hashtags in the body, keeps rewards out of the brand's main comment, and treats new accounts least generously.
-* **A pre-show self-check.** Before showing you a draft, the skill checks voice, grounding, shape, length, AI tells, copy-first, channel rules, and language.
-* **Localize last.** Translation happens only at Stage 6, and only into that channel's language. One channel means one language. Multi-language output is for site-wide content, not a single comment.
+- **Six fields per copy type.** Shape, must-include, length and voice, CTA and link, grounding, and visual support. Adding a new channel requires no code — fill out the six fields to add a row to the library.
+- **A recipe library.** Covers landing-page value cards, community posts, four kinds of comment reply, deck slides, ads, per-platform social captions, email, and image-heavy template email.
+- **Channel rules that are easy to get wrong.** Platforms without clickable in-feed links use a bio-link CTA, so two platforms never share one caption. Reddit takes zero links and zero hashtags in the body, keeps rewards out of the brand's main comment, and treats new accounts least generously.
+- **A pre-show self-check.** Before showing you a draft, the skill checks voice, grounding, shape, length, AI tells, copy-first, channel rules, and language.
+- **Localize last.** Translation happens only at Stage 6, and only into that channel's language. One channel means one language. Multi-language output is for site-wide content, not a single comment.
 
-## Working language and deliverable language
+## Working language vs deliverable language
 
 The skill separates your working language (how you talk to the agent) from the deliverable language (what the copy ships in). That matters when a team works in one language and markets in another. Every deliverable includes a short note in your working language so reviewers who do not read the target language can still give feedback. You can set both defaults at Stage 0.
 
@@ -284,10 +318,12 @@ The skill separates your working language (how you talk to the agent) from the d
 <summary>Layout</summary>
 
 ```
-├─ skills/                 copy-studio skill: SKILL.md, references, agents
+├─ skills/                 Copy Studio skill: SKILL.md, references, and agents
 ├─ commands/               /copy-studio slash command
 ├─ scripts/                dependency installer and skill checks
 ├─ docs/                   README screenshots
+├─ CONTRIBUTING.md         contribution guide
+├─ CODE_OF_CONDUCT.md      code of conduct
 ├─ install.sh              one-command installer
 ├─ CHANGELOG.md            release notes
 ├─ .claude-plugin/         Claude Code marketplace and plugin manifests
@@ -300,8 +336,8 @@ The skill separates your working language (how you talk to the agent) from the d
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+Copy Studio is MIT-licensed. See [LICENSE](LICENSE). The five dependency skills keep the licenses in their own repositories; the installer does not relicense them.
 
 Tried it? Open an [issue](https://github.com/Ekko237/copy-studio/issues) and tell me what broke or what you made.
 
-If this saved you some time, a ⭐ helps other people find it. Issues and PRs welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
+Issues and pull requests are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
